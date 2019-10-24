@@ -6,17 +6,17 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table
+@Table(name="Librarian_information")
 public class Librarian {
  
 	@Id
 	@Column
 	private int id;
-	@Column
+	@Column(nullable = false)
 	private String name;
 	@Column
 	private String role;
-	@Column
+	@Column(unique=true,nullable = false,updatable = false)
 	private String email;
 	@Column
 	private String password;

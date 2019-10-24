@@ -11,6 +11,7 @@ import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
 
 import com.tyss.tysslibrary.dto.Books;
+import com.tyss.tysslibrary.dto.Librarian;
 
 @Repository
 public class LibrarianDaoImplementation implements LibrarianDao {
@@ -22,7 +23,6 @@ public class LibrarianDaoImplementation implements LibrarianDao {
 	public boolean addbook(Books books) {
 		EntityManager manager = factory.createEntityManager();
 		EntityTransaction transaction = manager.getTransaction();
-		System.out.println(books.getbAuthor());
 		try {
 			transaction.begin();
 			manager.persist(books);
@@ -62,14 +62,28 @@ public class LibrarianDaoImplementation implements LibrarianDao {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<Books> searchbooks(String bName) {
 		EntityManager manager = factory.createEntityManager();
-		EntityTransaction transaction = manager.getTransaction();
 		String jpql="From Books where bName like %bName%";
 		Query query=manager.createQuery(jpql);
 		ArrayList<Books> books=(ArrayList<Books>) query.getResultList();
 		return books;
+	}
+
+	@Override
+	public Librarian auth(String email, String password) {
+		String jpql="From Librarian where email=:email and password=:pwd";
+		EntityManager manager=factory.createEntityManager();
+		Query query=manager.createQuery(jpql);
+		query.setParameter("email", email);
+		query.setParameter("pwd", password);
+		try {
+		return (Librarian) query.getSingleResult();
+		}catch(Exception e) {
+			return null;	
+		}
 	}
 
 	

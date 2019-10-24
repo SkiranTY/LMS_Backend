@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.tyss.tysslibrary.dao.LibrarianDao;
 import com.tyss.tysslibrary.dto.Books;
+import com.tyss.tysslibrary.dto.Librarian;
 
 @Service
 public class LibrarianServiceImpl implements LibrarianService {
@@ -33,6 +34,11 @@ public class LibrarianServiceImpl implements LibrarianService {
 	@Override
 	public ArrayList<Books> searchBook(String bName) {
 		return dao.searchbooks(bName);
+	}
+
+	@Override
+	public Librarian auth(String email, String password) {
+		return dao.auth(email, password);
 	}
 
 }
